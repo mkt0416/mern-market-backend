@@ -37,13 +37,12 @@ exports.readSingle = async (req, res) => {
 
 exports.update = async (req, res) => {
     const { id } = req.params;
-    const { email } = req.body.email;
     try {
         const singleItem = await ItemModel.findById(id);
         if (!singleItem) {
             return res.status(404).json({ message: 'ページが存在しません' });
         }
-        if (singleItem.email === email) {
+        if (singleItem.email === req.body.email) {
             await ItemModel.updateOne({ _id: id }, req.body);
             return res.status(200).json({ message: 'アイテム編集成功' });
         } else {
@@ -57,13 +56,12 @@ exports.update = async (req, res) => {
 
 exports.delete = async (req, res) => {
     const { id } = req.params;
-    const { email } = req.body.email;
     try {
         const singleItem = await ItemModel.findById(id);
         if (!singleItem) {
             return res.status(404).json({ message: 'ページが存在しません' });
         }
-        if (singleItem.email === email) {
+        if (singleItem.email === req.body.email) {
             await ItemModel.deleteOne({ _id: id });
             return res.status(200).json({ message: 'アイテム削除成功' });
         } else {
